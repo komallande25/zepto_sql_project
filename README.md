@@ -1,70 +1,34 @@
-#  🛒 Zepto E-commerce SQL Project
-📌 Overview
 
-This project analyzes a real-world product dataset inspired by Zepto, focusing on product availability, pricing, discounts, and inventory insights.
-Using SQL, the project performs data cleaning, exploratory queries, and business-oriented analysis to uncover actionable insights.
+# Zepto Product & Inventory Analysis (SQL)
 
-📂 Dataset Summary
+**Problem:** Analyze product pricing, stock availability, and category performance for a Zepto-style e-commerce dataset to surface business-relevant insights.
 
-File: zepto_v2.csv <BR>
-Total Rows: 1,200+ <BR>
+**Dataset:** `zepto_v2.csv` — 3,732 products across 14 categories. Columns: name, category, mrp, discountPercent, availableQuantity, discountedSellingPrice, weightInGms, outOfStock, quantity.
 
-Key Columns:<BR>
-name – Product name<BR>
-category – Product category<BR>
-mrp – Maximum Retail Price<BR>
-discountPercent – Discount applied<BR>
-discountedSellingPrice – Price after discount<BR>
-availableQuantity – Stock units<BR>
-weightInGms – Product weight<BR>
-outOfStock – Stock status<BR>
-
-🛠 SQL Tasks Performed
-
-1️⃣ Data Exploration<BR>
-Count total rows<BR>
-Check for missing values<BR>
-Identify unique categories<BR>
-Find duplicate product names<BR>
-Check stock vs. out-of-stock items<BR>
-
-2️⃣ Data Cleaning
-
-Removed products where mrp = 0<BR>
-## 2. Updating Price Format (Paise → Rupees)
-
-We convert all price values from paise to rupees using the SQL UPDATE query:
-
+## Data Cleaning
+- Checked for missing values across all columns
+- Removed 1 row with `mrp = 0` (invalid entry)
+- Converted `mrp` and `discountedSellingPrice` from paise to rupees:
 ```sql
 UPDATE zepto
-SET 
-    mrp = mrp / 100,
+SET mrp = mrp / 100,
     discountedSellingPrice = discountedSellingPrice / 100;
 ```
+- Identified 2,051 rows where the same product name appears multiple times (different weights/variants) — expected for this dataset, not treated as duplicates
 
+## Analysis (SQL)
+Queries covered: top discount products, high-MRP out-of-stock items, revenue by category, price-per-gram value analysis, weight-based classification (Low/Medium/Bulk via CASE statements), and category-wise inventory weight.
 
-Verified cleaned price columns<BR>
+## Key Findings
+- **453 products (12.1% of inventory) are out of stock**, including high-MRP items like Patanjali Cow's Ghee (₹565) — representing potential lost revenue
+- **Fruits & Vegetables has the highest average discount (~15.5%)**, notably higher than any other category
+- Revenue is unevenly distributed across categories, with some categories contributing significantly more than others despite similar product counts
 
-3️⃣ Business Insights (SQL Queries)
+## Tools
+SQL (MySQL Workbench), CSV dataset processing
 
-✔ Top 10 highest discount products<BR>
-✔ High-MRP products that are out of stock<BR>
-✔ Estimated revenue per category<BR>
-✔ MRP > 500 and discount < 10%<BR>
-✔ Top 5 categories with highest avg discount<BR>
-✔ Best value products (price per gram)<BR>
-✔ Weight classification → Low / Medium / Bulk<BR>
-✔ Total inventory weight by category<BR>
-
-📊 Key Insights
-Certain categories offer significantly higher discounts<BR>
-Some expensive items frequently go out of stock<BR>
-Revenue contribution varies widely by category<BR>
-Many products appear multiple times under different weights<BR>
-Bulk items hold the highest inventory weight<BR>
-
-
-🚀 Tech Used
-SQL<BR>
-MySQL / Workbench<BR>
-CSV dataset processing<BR>
+## Repository Structure
+```
+├── zepto_v2.csv
+└── zepto_analysis.sql
+```

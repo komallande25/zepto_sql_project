@@ -30,5 +30,5 @@ SQL (MySQL Workbench), CSV dataset processing
 ## Repository Structure
 ```
 ├── zepto_v2.csv
-└── zepto_analysis.sql
+└── zepto_project.sql
 ```
